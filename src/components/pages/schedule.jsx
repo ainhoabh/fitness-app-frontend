@@ -30,12 +30,14 @@ const Schedule = () => {
         );
         const exList = exResponse.data.map((exArray) => exArray[0]);
         setExercises(exList);
+        console.log(exList);
 
         const daysResponse = await axios.get(
           "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/days"
         );
         const daysList = daysResponse.data.map((dayArray) => dayArray[0]);
         setDays(daysList);
+        console.log(daysList);
       } catch (error) {
         console.error("Error retrieving the data from the API: ", error);
       }
