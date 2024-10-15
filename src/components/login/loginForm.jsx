@@ -18,10 +18,13 @@ const LoginForm = () => {
 
   const onSubmit = async (data) => {
     axios
-      .post("http://localhost:5000/login", {
-        username: data.username,
-        password: data.password,
-      })
+      .post(
+        "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/login",
+        {
+          username: data.username,
+          password: data.password,
+        }
+      )
       .then((response) => {
         console.log("Login successful", response.data);
         sessionStorage.setItem("token", response.data.access_token);

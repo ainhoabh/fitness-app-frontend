@@ -25,11 +25,15 @@ const Schedule = () => {
   useEffect(() => {
     const getAllData = async () => {
       try {
-        const exResponse = await axios.get("http://localhost:5000/exercises");
+        const exResponse = await axios.get(
+          "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/exercises"
+        );
         const exList = exResponse.data.map((exArray) => exArray[0]);
         setExercises(exList);
 
-        const daysResponse = await axios.get("http://localhost:5000/days");
+        const daysResponse = await axios.get(
+          "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/days"
+        );
         const daysList = daysResponse.data.map((dayArray) => dayArray[0]);
         setDays(daysList);
       } catch (error) {
@@ -55,7 +59,10 @@ const Schedule = () => {
     try {
       await Promise.all(
         trainingData.map(async (data) => {
-          await axios.post("http://localhost:5000/training", data);
+          await axios.post(
+            "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/training",
+            data
+          );
         })
       );
       goToTraining();

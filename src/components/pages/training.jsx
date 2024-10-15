@@ -27,7 +27,7 @@ const TrainingData = () => {
     try {
       const username = sessionStorage.getItem("username");
       const response = await axios.delete(
-        `http://localhost:5000/user/${username}/training_delete`
+        `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training_delete`
       );
       window.location.reload();
     } catch (err) {
@@ -41,7 +41,7 @@ const TrainingData = () => {
       try {
         const username = sessionStorage.getItem("username");
         const response = await axios.get(
-          `http://localhost:5000/user/${username}/training`
+          `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training`
         );
         console.log("training data: ", response.data);
         setTrainingData(response.data);

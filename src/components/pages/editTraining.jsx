@@ -32,11 +32,15 @@ const EditTraining = () => {
   useEffect(() => {
     const getAllData = async () => {
       try {
-        const exResponse = await axios.get("http://localhost:5000/exercises");
+        const exResponse = await axios.get(
+          "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/exercises"
+        );
         const exList = exResponse.data.map((exArray) => exArray[0]);
         setExercises(exList);
 
-        const daysResponse = await axios.get("http://localhost:5000/days");
+        const daysResponse = await axios.get(
+          "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/days"
+        );
         const daysList = daysResponse.data.map((dayArray) => dayArray[0]);
         setDays(daysList);
 
@@ -81,7 +85,7 @@ const EditTraining = () => {
       await Promise.all(
         trainingData.map(async (data) => {
           await axios.put(
-            `http://localhost:5000/user/${username}/training`,
+            `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training`,
             data
           );
           goToTraining();
