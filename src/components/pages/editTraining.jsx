@@ -1,6 +1,3 @@
-// TODO deployment
-// TODO nice to have: añadir imágenes de los ejercicios
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
@@ -10,7 +7,7 @@ import DaySchedule from "../days/daySchedule";
 
 const EditTraining = () => {
   const location = useLocation();
-  const { trainingData: initialTrainingData } = location.state || {};
+  const { trainingData: initialTrainingData, onUpdate } = location.state || {};
 
   const methods = useForm();
   const { reset } = methods;
@@ -33,26 +30,26 @@ const EditTraining = () => {
     const getAllData = async () => {
       try {
         const exResponse = await axios.get(
-          "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/exercises"
+          // "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/exercises"
+          "http://localhost:5000/exercises"
         );
-        const exList = exResponse.data.map((exArray) => exArray[0]);
-        setExercises(exList);
+        setExercises(exResponse.data);
 
         const daysResponse = await axios.get(
-          "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/days"
+          // "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/days"
+          "http://localhost:5000/days"
         );
-        const daysList = daysResponse.data.map((dayArray) => dayArray[0]);
-        setDays(daysList);
+        setDays(daysResponse.data);
 
         if (initialTrainingData) {
           const formattedData = {};
-          initialTrainingData.forEach((trainingArray) => {
-            const [
-              day,
+          initialTrainingData.forEach((training) => {
+            const {
+              training_day_name: day,
               training_exercise1,
               training_exercise2,
               training_exercise3,
-            ] = trainingArray;
+            } = training;
 
             formattedData[`exercise1_${day}`] = training_exercise1;
             formattedData[`exercise2_${day}`] = training_exercise2;
@@ -71,23 +68,30 @@ const EditTraining = () => {
 
   const onSubmit = async (formData) => {
     setData(JSON.stringify(formData, null, 2));
-
     const username = sessionStorage.getItem("username");
-    const trainingData = days.map((day) => ({
-      day,
-      user: username,
-      exercise1: formData[`exercise1_${day}`],
-      exercise2: formData[`exercise2_${day}`],
-      exercise3: formData[`exercise3_${day}`],
-    }));
+
+    const trainingData = days.map((day) => {
+      return {
+        day,
+        user: username,
+        exercise1: formData[`exercise1_${day}`],
+        exercise2: formData[`exercise2_${day}`],
+        exercise3: formData[`exercise3_${day}`],
+      };
+    });
 
     try {
       await Promise.all(
         trainingData.map(async (data) => {
           await axios.put(
-            `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training`,
-            data
+            // `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training`,
+            `http://localhost:5000/user/${username}/training`,
+            data,
+            { headers: { "Content-Type": "application/json" } }
           );
+          if (onUpdate) {
+            onUpdate(updatedTrainingData);
+          }
           goToTraining();
         })
       );

@@ -19,7 +19,8 @@ const LoginForm = () => {
   const onSubmit = async (data) => {
     axios
       .post(
-        "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/login",
+        // "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/login",
+        "http://localhost:5000/login",
         {
           username: data.username,
           password: data.password,

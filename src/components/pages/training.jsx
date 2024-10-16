@@ -16,7 +16,9 @@ const TrainingData = () => {
   };
 
   const editTraining = (data) => {
-    navigate("/edit", { state: { trainingData: data } });
+    navigate("/edit", {
+      state: { trainingData: data },
+    });
   };
 
   const goToCreateTraining = () => {
@@ -27,7 +29,8 @@ const TrainingData = () => {
     try {
       const username = sessionStorage.getItem("username");
       const response = await axios.delete(
-        `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training_delete`
+        // `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training_delete`
+        `http://localhost:5000/user/${username}/training_delete`
       );
       window.location.reload();
     } catch (err) {
@@ -36,17 +39,32 @@ const TrainingData = () => {
     }
   };
 
+  const updateTrainingData = async () => {
+    try {
+      const username = sessionStorage.getItem("username");
+      const response = await axios.get(
+        `http://localhost:5000/user/${username}/training`
+      );
+      console.log("Updated training data: ", response.data);
+      setTrainingData(response.data);
+    } catch (err) {
+      console.error("Error fetching training data:", err);
+    }
+  };
+
   useEffect(() => {
     const fetchTrainingData = async () => {
       try {
         const username = sessionStorage.getItem("username");
         const response = await axios.get(
-          `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training`
+          // `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training`
+          `http://localhost:5000/user/${username}/training`
         );
         console.log("training data: ", response.data);
         setTrainingData(response.data);
       } catch (err) {
         setError(err);
+        console.error("Error fetching training data:", err);
       } finally {
         setLoading(false);
       }
@@ -66,7 +84,10 @@ const TrainingData = () => {
   ];
 
   const sortedTrainingData = [...trainingData].sort((a, b) => {
-    return dayOrder.indexOf(a[0]) - dayOrder.indexOf(b[0]);
+    return (
+      dayOrder.indexOf(a.training_day_name) -
+      dayOrder.indexOf(b.training_day_name)
+    );
   });
 
   if (loading)
@@ -79,7 +100,7 @@ const TrainingData = () => {
   return (
     <div className="training-wrapper">
       <h1>Scheduled training</h1>
-      {trainingData && trainingData.length > 0 ? (
+      {sortedTrainingData.length > 0 ? (
         <div className="weekly-training-wrapper">
           <ul className="fa-ul">
             {sortedTrainingData.map((data, index) => (
@@ -90,13 +111,13 @@ const TrainingData = () => {
                       icon={faPersonRunning}
                       className="icon-running"
                     />
-                    {data[0]}
+                    {data.training_day_name}
                   </h3>
                 </div>
                 <div className="exercises-wrapper">
-                  <div className="exercise">{data[1]}</div>
-                  <div className="exercise">{data[2]}</div>
-                  <div className="exercise">{data[3]}</div>
+                  <div className="exercise">{data.training_exercise1}</div>
+                  <div className="exercise">{data.training_exercise2}</div>
+                  <div className="exercise">{data.training_exercise3}</div>
                 </div>
               </li>
             ))}

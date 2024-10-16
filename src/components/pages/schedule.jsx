@@ -26,18 +26,16 @@ const Schedule = () => {
     const getAllData = async () => {
       try {
         const exResponse = await axios.get(
-          "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/exercises"
+          // "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/exercises"
+          "http://localhost:5000/exercises"
         );
-        const exList = exResponse.data.map((exArray) => exArray[0]);
-        setExercises(exList);
-        console.log(exList);
+        setExercises(exResponse.data);
 
         const daysResponse = await axios.get(
-          "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/days"
+          // "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/days"
+          "http://localhost:5000/days"
         );
-        const daysList = daysResponse.data.map((dayArray) => dayArray[0]);
-        setDays(daysList);
-        console.log(daysList);
+        setDays(daysResponse.data);
       } catch (error) {
         console.error("Error retrieving the data from the API: ", error);
       }
@@ -62,7 +60,8 @@ const Schedule = () => {
       await Promise.all(
         trainingData.map(async (data) => {
           await axios.post(
-            "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/training",
+            // "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/training",
+            "http://localhost:5000/training",
             data
           );
         })
