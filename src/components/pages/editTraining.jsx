@@ -30,14 +30,12 @@ const EditTraining = () => {
     const getAllData = async () => {
       try {
         const exResponse = await axios.get(
-          // "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/exercises"
-          "http://localhost:5000/exercises"
+          "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/exercises"
         );
         setExercises(exResponse.data);
 
         const daysResponse = await axios.get(
-          // "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/days"
-          "http://localhost:5000/days"
+          "https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/days"
         );
         setDays(daysResponse.data);
 
@@ -84,8 +82,7 @@ const EditTraining = () => {
       await Promise.all(
         trainingData.map(async (data) => {
           await axios.put(
-            // `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training`,
-            `http://localhost:5000/user/${username}/training`,
+            `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training`,
             data,
             { headers: { "Content-Type": "application/json" } }
           );
