@@ -27,7 +27,6 @@ const LoginForm = () => {
         }
       )
       .then((response) => {
-        console.log("Login successful", response.data);
         sessionStorage.setItem("token", response.data.access_token);
         setLoginError("");
         navigate("/training");
@@ -39,7 +38,6 @@ const LoginForm = () => {
         } else {
           setLoginError("An unexpected error occurred. Please try again.");
         }
-        console.log("Login error", error);
       });
   };
 

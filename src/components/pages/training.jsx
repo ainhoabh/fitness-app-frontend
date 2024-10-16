@@ -45,7 +45,6 @@ const TrainingData = () => {
       const response = await axios.get(
         `http://localhost:5000/user/${username}/training`
       );
-      console.log("Updated training data: ", response.data);
       setTrainingData(response.data);
     } catch (err) {
       console.error("Error fetching training data:", err);
@@ -60,7 +59,6 @@ const TrainingData = () => {
           // `https://fitness-app-abh-backend-c16e39b8eaec.herokuapp.com/user/${username}/training`
           `http://localhost:5000/user/${username}/training`
         );
-        console.log("training data: ", response.data);
         setTrainingData(response.data);
       } catch (err) {
         setError(err);
